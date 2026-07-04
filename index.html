@@ -1,0 +1,873 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Love Story 💖</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: linear-gradient(135deg, #ffe6f0, #fff0f7, #ffd6e8);
+        overflow-x: hidden;
+        transition: 0.5s;
+      }
+
+      body.night {
+        background: linear-gradient(135deg, #16001e, #3b0050, #1b0030);
+        color: white;
+      }
+
+      button {
+        border: none;
+        border-radius: 25px;
+        padding: 13px 24px;
+        background: linear-gradient(135deg, #d63384, #ff5ca8);
+        color: white;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(214, 51, 132, 0.35);
+        transition: 0.3s;
+      }
+
+      button:hover {
+        transform: scale(1.05);
+      }
+
+      .lock-screen {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 25px;
+        background: linear-gradient(135deg, #ffb6d9, #ffd6e8, #fff0f5);
+      }
+
+      .lock-box {
+        background: rgba(255, 255, 255, 0.4);
+        padding: 35px 25px;
+        border-radius: 25px;
+        box-shadow: 0 15px 40px rgba(214, 51, 132, 0.25);
+        backdrop-filter: blur(10px);
+        animation: fadeUp 1.2s ease;
+      }
+
+      .lock-box h1 {
+        color: #d63384;
+      }
+      .lock-box p {
+        color: #7a2f55;
+      }
+
+      input {
+        width: 100%;
+        max-width: 280px;
+        padding: 14px;
+        margin-top: 15px;
+        border: none;
+        border-radius: 25px;
+        text-align: center;
+        outline: none;
+      }
+
+      #error {
+        color: #c1121f;
+        font-weight: bold;
+      }
+
+      .main {
+        display: none;
+      }
+
+      .floating-buttons {
+        position: fixed;
+        right: 15px;
+        bottom: 15px;
+        z-index: 99999;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .round-btn {
+        width: 55px;
+        height: 55px;
+        border-radius: 50%;
+        padding: 0;
+        font-size: 22px;
+      }
+
+      .hero,
+      .page {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 35px 20px;
+      }
+
+      .hero {
+        background: radial-gradient(circle, #fff0f7, #ffd6e8);
+      }
+
+      body.night .hero {
+        background: radial-gradient(circle, #3b0050, #16001e);
+      }
+
+      .hero h1 {
+        font-size: 45px;
+        color: #d63384;
+        text-shadow: 0 0 20px rgba(214, 51, 132, 0.4);
+      }
+
+      .typewriter {
+        color: #7a2f55;
+        font-size: 18px;
+        min-height: 35px;
+      }
+
+      body.night .typewriter {
+        color: #ffd6e8;
+      }
+
+      .card {
+        max-width: 520px;
+        background: rgba(255, 255, 255, 0.6);
+        padding: 35px;
+        border-radius: 30px;
+        box-shadow: 0 15px 45px rgba(214, 51, 132, 0.18);
+        backdrop-filter: blur(8px);
+        animation: floatCard 4s ease-in-out infinite;
+      }
+
+      body.night .card {
+        background: rgba(255, 255, 255, 0.12);
+        box-shadow: 0 0 30px rgba(255, 92, 168, 0.35);
+      }
+
+      .card h2 {
+        color: #d63384;
+        font-size: 28px;
+      }
+      .card p {
+        color: #444;
+        line-height: 1.7;
+        font-size: 17px;
+      }
+      body.night .card p {
+        color: #ffe6f0;
+      }
+
+      .final {
+        background: linear-gradient(135deg, #ffd6e8, #fff0f5);
+      }
+
+      body.night .final {
+        background: linear-gradient(135deg, #1b0030, #3b0050);
+      }
+
+      .love {
+        font-size: 48px;
+        color: #d63384;
+        animation: pulse 1.5s infinite;
+      }
+
+      .section {
+        padding: 70px 20px;
+        text-align: center;
+      }
+
+      .title {
+        color: #d63384;
+        font-size: 30px;
+        margin-bottom: 25px;
+      }
+
+      .counter-box,
+      .secret-box,
+      .quote-box,
+      .timeline-box {
+        max-width: 520px;
+        margin: auto;
+        background: white;
+        padding: 30px;
+        border-radius: 25px;
+        box-shadow: 0 12px 35px rgba(214, 51, 132, 0.2);
+      }
+
+      body.night .counter-box,
+      body.night .secret-box,
+      body.night .quote-box,
+      body.night .timeline-box {
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      #loveCounter,
+      #quoteText {
+        color: #7a2f55;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      body.night #loveCounter,
+      body.night #quoteText {
+        color: #ffd6e8;
+      }
+
+      .timeline {
+        text-align: left;
+        max-width: 420px;
+        margin: auto;
+      }
+
+      .timeline-item {
+        padding: 15px;
+        margin: 12px 0;
+        border-left: 4px solid #d63384;
+        background: #fff0f7;
+        border-radius: 15px;
+      }
+
+      body.night .timeline-item {
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        max-width: 540px;
+        margin: auto;
+      }
+
+      .gallery img {
+        width: 100%;
+        height: 190px;
+        object-fit: cover;
+        border-radius: 20px;
+        box-shadow: 0 8px 22px rgba(214, 51, 132, 0.25);
+        transition: 0.4s;
+        cursor: pointer;
+      }
+
+      .gallery img:hover {
+        transform: scale(1.05) rotate(1deg);
+      }
+
+      .popup,
+      .image-modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.65);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 999999;
+        padding: 20px;
+      }
+
+      .popup-content {
+        max-width: 430px;
+        background: white;
+        padding: 30px;
+        border-radius: 25px;
+        text-align: center;
+        animation: fadeUp 0.8s ease;
+      }
+
+      .popup-content h2 {
+        color: #d63384;
+      }
+      .popup-content p {
+        color: #444;
+        line-height: 1.7;
+      }
+
+      .image-modal-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        max-width: 90%;
+        width: 100%;
+      }
+
+      .modal-content {
+        max-width: 100%;
+        max-height: 80vh;
+        border-radius: 20px;
+        display: block;
+      }
+
+      .modal-caption {
+        color: white;
+        text-align: center;
+        margin-top: 15px;
+        font-size: 18px;
+        width: 100%;
+        word-wrap: break-word;
+      }
+
+      .heart,
+      .petal,
+      .burst {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+      }
+
+      .burst {
+        animation: burstAnim 1s ease forwards;
+      }
+
+      @keyframes fall {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(110vh) rotate(360deg);
+          opacity: 0;
+        }
+      }
+
+      @keyframes burstAnim {
+        0% {
+          transform: scale(0.5);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(-80px) scale(1.8);
+          opacity: 0;
+        }
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.12);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(35px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes floatCard {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .hero h1 {
+          font-size: 34px;
+        }
+        .card {
+          padding: 25px;
+        }
+        .card h2 {
+          font-size: 24px;
+        }
+        .card p {
+          font-size: 15px;
+        }
+        .gallery {
+          grid-template-columns: 1fr;
+          max-width: 330px;
+        }
+        .gallery img {
+          height: 220px;
+        }
+        .love {
+          font-size: 36px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="lock-screen" id="lockScreen">
+      <div class="lock-box">
+        <h1>Only Babi can open this 💖</h1>
+        <p>A little surprise made with love...</p>
+        <input type="password" id="password" placeholder="Enter password" />
+        <br />
+        <button onclick="checkPassword()">Open My Heart 💌</button>
+        <p id="error"></p>
+      </div>
+    </div>
+
+    <div class="main" id="mainContent">
+      <div class="floating-buttons">
+        <button class="round-btn" id="musicBtn" onclick="toggleMusic()">
+          🎵
+        </button>
+        <button class="round-btn" onclick="toggleNight()">🌙</button>
+      </div>
+
+      <audio id="bgMusic" loop autoplay>
+        <source src="./music.mp3" type="audio/mpeg" autoplay />
+      </audio>
+
+      <section class="hero">
+        <div>
+          <h1>Our Love Story 💖</h1>
+          <p class="typewriter" id="typeText"></p>
+          <button onclick="scrollToStory()">Start Reading 🌹</button>
+        </div>
+      </section>
+
+      <section class="page" id="storyStart">
+        <div class="card">
+          <h2>💖 Chapter 1 — Our Beginning</h2>
+          <p>
+            I still remember the day you came into my life. Everything felt
+            normal before… but after you, everything changed beautifully.
+          </p>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="card">
+          <h2>🌸 Chapter 2 — Getting Closer</h2>
+          <p>
+            Slowly we started talking, and without realizing it, you became my
+            favorite person. Every message from you made my day better.
+          </p>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="card">
+          <h2>💌 Chapter 3 — Feelings</h2>
+          <p>
+            I never planned it, but my heart started choosing you. Your words,
+            your care, and your presence became something very special to me.
+          </p>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="card">
+          <h2>🌹 Chapter 4 — Distance</h2>
+          <p>
+            Even if we are far, I never feel alone. Because real love is not
+            about distance… it is about connection.
+          </p>
+        </div>
+      </section>
+
+      <section class="page">
+        <div class="card">
+          <h2>💞 Chapter 5 — My Promise</h2>
+          <p>
+            I do not want perfection. I just want you — in every situation, in
+            every version of life.
+          </p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="counter-box">
+          <h2 class="title">⏳ Time Since I Started Loving You</h2>
+          <p id="loveCounter">Loading...</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="timeline-box">
+          <h2 class="title">🗓️ Our Memory Timeline</h2>
+          <div class="timeline">
+            <div class="timeline-item">
+              <b>First Message:</b> The day everything started 💬
+            </div>
+            <div class="timeline-item">
+              <b>First Smile:</b> The moment my heart felt different 😊
+            </div>
+            <div class="timeline-item">
+              <b>First Call:</b> A memory I will never forget 📞
+            </div>
+            <div class="timeline-item">
+              <b>Forever:</b> The future I want with you 💍
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="quote-box">
+          <h2 class="title">💭 Love Quote For You</h2>
+          <p id="quoteText">Loading quote...</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="secret-box">
+          <h2 class="title">💌 Secret Message</h2>
+          <button onclick="showSecret()">Open Secret Message</button>
+          <p
+            id="secretText"
+            style="
+              display: none;
+              margin-top: 20px;
+              color: #7a2f55;
+              font-size: 18px;
+            "
+          >
+            No matter how many days pass, my heart will always choose you again
+            and again 💖
+          </p>
+        </div>
+      </section>
+
+      <section class="gallery-section section">
+        <h2 class="title">📸 Our Memories</h2>
+        <div class="gallery">
+          <img
+            src="./img/1.jpeg"
+            onclick="
+              openImage(
+                this,
+                'Our first time meeting... nervous, shy, and unforgettable. 🚤❤️',
+              )
+            "
+          />
+          <img
+            src="./img/2.jpeg"
+            onclick="
+              openImage(
+                this,
+                'Even the simple moments became memories with you. 🤍',
+              )
+            "
+          />
+          <img
+            src="./img/3.jpeg"
+            onclick="
+              openImage(
+                this,
+                'Another adventure, another beautiful day with you. 🌿❤️',
+              )
+            "
+          />
+          <img
+            src="./img/4.jpeg"
+            onclick="
+              openImage(
+                this,
+                'A little skincare, a lot of happy memories. 🫶✨',
+              )
+            "
+          />
+          <img
+            src="./img/5.jpeg"
+            onclick="
+              openImage(
+                this,
+                'Shopping, good food, and the best company. 🛍️🍽️❤️',
+              )
+            "
+          />
+          <img
+            src="./img/7.jpeg"
+            onclick="
+              openImage(this, 'One of my happiest memories with you. 🥹💖')
+            "
+          />
+          <img
+            src="./img/6.jpeg"
+            onclick="
+              openImage(
+                this,
+                'We\ve been to the beach many times, but this day will always be my favorite. 🌊❤️',
+              )
+            "
+          />
+          <img
+            src="./img/8.jpeg"
+            onclick="
+              openImage(
+                this,
+                'A simple day out, but every moment with you was special. 💕',
+              )
+            "
+          />
+          <img
+            src="./img/9.jpeg"
+            onclick="
+              openImage(
+                this,
+                'Our carnival adventure! I was so scared on the giant ride, but you were with me. 🎡😂 ',
+              )
+            "
+          />
+          <img
+            src="./img/10.jpeg"
+            onclick="
+              openImage(
+                this,
+                'A peaceful morning at the temple, followed by a beautiful beach sunset. ❤️',
+              )
+            "
+          />
+        </div>
+      </section>
+
+      <section class="page final">
+        <div class="card">
+          <h1 class="love">I LOVE YOU 💖</h1>
+          <p>You are my today, my tomorrow, and my forever.</p>
+          <button onclick="finalSurprise()">Final Surprise 🎆</button>
+        </div>
+      </section>
+    </div>
+
+    <div class="popup" id="letterPopup">
+      <div class="popup-content">
+        <h2>Before You Enter 💌</h2>
+        <p>
+          I made this little page only for you. Every word, every heart, and
+          every memory here is a small piece of what I feel for you.
+        </p>
+        <button onclick="closeLetter()">Continue 💖</button>
+      </div>
+    </div>
+
+    <div class="popup" id="finalPopup">
+      <div class="popup-content">
+        <h2>My Final Question 💖</h2>
+        <p>Will you always stay with me and be my forever person?</p>
+        <button onclick="closeFinal()">Yes, Forever 💍</button>
+      </div>
+    </div>
+
+    <div class="image-modal" id="imageModal" onclick="closeImage()">
+      <div class="image-modal-container">
+        <img id="modalImg" class="modal-content" />
+        <p id="modalCaption" class="modal-caption"></p>
+      </div>
+    </div>
+
+    <script>
+      function checkPassword() {
+        let pass = document.getElementById("password").value;
+        if (pass === "babi123") {
+          document.getElementById("lockScreen").style.display = "none";
+          document.getElementById("mainContent").style.display = "block";
+          document.getElementById("letterPopup").style.display = "flex";
+          startTypewriter();
+        } else {
+          document.getElementById("error").innerText =
+            "Wrong password 💔 Try again, my love.";
+        }
+      }
+
+      document.getElementById("password").addEventListener("keydown", (e) => {
+        if (e.key === "Enter") checkPassword();
+      });
+
+      function closeLetter() {
+        document.getElementById("letterPopup").style.display = "none";
+      }
+
+      let text =
+        "Every chapter of my life became beautiful after you came into it...";
+      let index = 0;
+
+      function startTypewriter() {
+        let typeText = document.getElementById("typeText");
+        typeText.innerHTML = "";
+        index = 0;
+        function typing() {
+          if (index < text.length) {
+            typeText.innerHTML += text.charAt(index);
+            index++;
+            setTimeout(typing, 55);
+          }
+        }
+        typing();
+      }
+
+      function scrollToStory() {
+        document
+          .getElementById("storyStart")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      let musicPlaying = false;
+
+      function toggleMusic() {
+        let music = document.getElementById("bgMusic");
+        let btn = document.getElementById("musicBtn");
+
+        if (!musicPlaying) {
+          music.play();
+          musicPlaying = true;
+          btn.innerText = "🎶";
+        } else {
+          music.pause();
+          musicPlaying = false;
+          btn.innerText = "🔇";
+        }
+      }
+
+      function toggleNight() {
+        document.body.classList.toggle("night");
+      }
+
+      let loveStartDate = new Date("2024-07-06T00:00:00");
+
+      function updateLoveCounter() {
+        let now = new Date();
+        let difference = now - loveStartDate;
+
+        let days = Math.floor(difference / (1000 * 60 * 60 * 24));
+        let hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+        let minutes = Math.floor((difference / (1000 * 60)) % 60);
+        let seconds = Math.floor((difference / 1000) % 60);
+
+        document.getElementById("loveCounter").innerHTML =
+          days +
+          " days, " +
+          hours +
+          " hours, " +
+          minutes +
+          " minutes, " +
+          seconds +
+          " seconds 💖";
+      }
+
+      setInterval(updateLoveCounter, 1000);
+      updateLoveCounter();
+
+      let quotes = [
+        "You are my favorite notification 💌",
+        "My heart feels safe when it thinks of you 💖",
+        "Distance means nothing when someone means everything 🌹",
+        "You are not just my love, you are my peace 💞",
+        "Every love song reminds me of you 🎶",
+      ];
+
+      let quoteIndex = 0;
+
+      function changeQuote() {
+        document.getElementById("quoteText").innerHTML = quotes[quoteIndex];
+        quoteIndex = (quoteIndex + 1) % quotes.length;
+      }
+
+      setInterval(changeQuote, 3500);
+      changeQuote();
+
+      function showSecret() {
+        document.getElementById("secretText").style.display = "block";
+      }
+
+      function openImage(img, caption) {
+        document.getElementById("modalImg").src = img.src;
+        document.getElementById("modalCaption").innerText = caption;
+        document.getElementById("imageModal").style.display = "flex";
+      }
+
+      function closeImage() {
+        document.getElementById("imageModal").style.display = "none";
+      }
+
+      function createHeart() {
+        let heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = ["💖", "💕", "💗", "💘", "❤️"][
+          Math.floor(Math.random() * 5)
+        ];
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = "-20px";
+        heart.style.fontSize = 14 + Math.random() * 20 + "px";
+        heart.style.animationName = "fall";
+        heart.style.animationDuration = 4 + Math.random() * 3 + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 7000);
+      }
+
+      function createPetal() {
+        let petal = document.createElement("div");
+        petal.classList.add("petal");
+        petal.innerHTML = ["🌹", "🌸", "🌺"][Math.floor(Math.random() * 3)];
+        petal.style.left = Math.random() * 100 + "vw";
+        petal.style.top = "-20px";
+        petal.style.fontSize = 12 + Math.random() * 18 + "px";
+        petal.style.animationName = "fall";
+        petal.style.animationDuration = 5 + Math.random() * 4 + "s";
+        document.body.appendChild(petal);
+        setTimeout(() => petal.remove(), 9000);
+      }
+
+      setInterval(createHeart, 350);
+      setInterval(createPetal, 700);
+
+      document.addEventListener("click", function (e) {
+        if (
+          e.target.tagName === "BUTTON" ||
+          e.target.tagName === "IMG" ||
+          e.target.tagName === "INPUT"
+        )
+          return;
+
+        for (let i = 0; i < 6; i++) {
+          let burst = document.createElement("div");
+          burst.classList.add("burst");
+          burst.innerHTML = "💖";
+          burst.style.left = e.clientX + (Math.random() * 60 - 30) + "px";
+          burst.style.top = e.clientY + (Math.random() * 60 - 30) + "px";
+          burst.style.fontSize = 15 + Math.random() * 15 + "px";
+          document.body.appendChild(burst);
+          setTimeout(() => burst.remove(), 1000);
+        }
+      });
+
+      function finalSurprise() {
+        document.getElementById("finalPopup").style.display = "flex";
+
+        for (let i = 0; i < 40; i++) {
+          setTimeout(() => {
+            let heart = document.createElement("div");
+            heart.classList.add("burst");
+            heart.innerHTML = ["💖", "💘", "💕", "❤️"][
+              Math.floor(Math.random() * 4)
+            ];
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.top = Math.random() * 100 + "vh";
+            heart.style.fontSize = 20 + Math.random() * 25 + "px";
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 1200);
+          }, i * 60);
+        }
+      }
+
+      function closeFinal() {
+        document.getElementById("finalPopup").style.display = "none";
+      }
+    </script>
+  </body>
+</html>
